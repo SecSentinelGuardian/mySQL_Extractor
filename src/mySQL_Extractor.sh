@@ -101,4 +101,25 @@ fi
 
 # Setup output directories
 TIMESTAMP=$(date +%Y%m%d-%H%M%S)
-CSV_FOLDER=
+CSV_FOLDER="csv-dump-$TIMESTAMP"
+RESULTS_DIR="results"
+OUTFILE="$RESULTS_DIR/mysql-dump-$TIMESTAMP.txt"
+HTML_FILE="$RESULTS_DIR/mysql-dump-$TIMESTAMP.html"
+
+mkdir -p "$CSV_FOLDER"
+mkdir -p "$RESULTS_DIR"
+
+dump_database
+
+# Clean up CSV folder if not selected
+if [[ ! "$FEATURE_MODE" =~ ^(1|4)$ ]]; then
+    rm -rf "$CSV_FOLDER"
+fi
+
+echo "[✓] Dump complete. Saved to $OUTFILE and $HTML_FILE"
+
+# Serve web viewer
+if [[ "$FEATURE_MODE" =~ ^(3|4)$ ]]; then
+    echo "[🌐] Serving at: http://localhost:8080"
+    (cd "$RESULTS_DIR" && python3 -m http.server 8080 > /dev/null 2>&1 &)
+fi

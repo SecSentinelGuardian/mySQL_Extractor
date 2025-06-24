@@ -1,0 +1,98 @@
+.TH MYSQL_EXTRACTOR 1 "June 2025" "Version 1.0" "User Commands"
+
+.SH NAME
+mysql_extractor \- Bash script for dumping and analyzing vulnerable MySQL databases
+
+.SH SYNOPSIS
+.B mysql_extractor.sh
+.RI [ interactive prompts ]
+
+.SH DESCRIPTION
+.B mysql_extractor
+is a Bash-based tool designed for ethical hacking and penetration testing lab exercises. It connects to vulnerable MySQL services, extracts database contents, and offers optional features for enhanced analysis and reporting.
+
+The script supports the following features:
+- Exporting results as CSV files
+- Highlighting likely credential columns (e.g., username, password, email)
+- Serving extracted results via a local HTML page
+
+This tool is intended for educational purposes and controlled environments only.
+
+.SH OPTIONS
+The script runs interactively and prompts the user for the following inputs:
+.TP
+.B MySQL Host IP
+Specify the target IP address of the MySQL server.
+.TP
+.B Username
+Specify the MySQL username (default: \fBroot\fR).
+.TP
+.B Password
+Specify the MySQL password (optional). Leave blank if unauthenticated access is allowed.
+.TP
+.B Feature Mode
+Select one of the following options:
+- 1: Export results as CSV files
+- 2: Highlight likely credential columns
+- 3: Serve extracted results via a local HTML page
+- 4: Enable all features
+- 5: Disable all optional features
+
+.SH OUTPUT
+Results are saved under the \fBresults/\fR directory:
+.TP
+.B mysql-dump-YYYYMMDD-HHMMSS.txt
+Contains raw data dumps from all tables in the target databases.
+.TP
+.B mysql-dump-YYYYMMDD-HHMMSS.html
+Provides a formatted HTML view of the extracted data for web viewing.
+.TP
+.B csv-dump-YYYYMMDD-HHMMSS/
+Directory containing CSV files for each table, useful for offline analysis.
+
+.SH FEATURES
+.TP
+1. Export results as CSV files for offline analysis.
+2. Identify likely credential fields (e.g., username, email, password).
+3. Serve extracted results via a local HTML page at \fBhttp://localhost:8080\fR.
+4. Timestamped output files for better organization.
+5. Skips MySQL internal schemas (e.g., \fBinformation_schema\fR, \fBperformance_schema\fR).
+
+.SH SECURITY WARNING
+Do not hardcode credentials in the script. Use environment variables or configuration files excluded from version control to securely store sensitive information. For example:
+.TP
+.B Environment Variables
+Set credentials securely:
+.P
+export MYSQL_HOST="your_host"
+export MYSQL_USER="your_user"
+export MYSQL_PASSWORD="your_password"
+
+.SH REQUIREMENTS
+.TP
+- mysql-client (minimum version: 5.7)
+- bash (minimum version: 4.0)
+- python3 (minimum version: 3.6)
+
+.SH EXAMPLES
+.TP
+Connect to a MySQL host securely and enable all features:
+.B mysql_extractor.sh
+Enter prompts as follows:
+.P
+Host IP: 192.168.1.10
+Username: root
+Password: (leave blank)
+Feature mode: 4
+
+.SH BUGS
+Report bugs or issues at \fBhttps://github.com/SecSentinelGuardian/mysql_extractor/issues\fR.
+
+.SH AUTHOR
+Developed by SSG (Sec Sentinel Guardian).
+
+.SH LICENSE
+Use only in legal, authorized, and controlled environments. This script is strictly for learning and penetration testing lab exercises.
+
+.SH SEE ALSO
+mysql(1), bash(1), python3(1), metasploitable2

@@ -1,0 +1,21 @@
+# Output directories
+results/
+csv-dump-*/
+
+# Environment files
+.env
+
+# Logs
+*.log
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*~
+*.swp
+
+# Python cache
+__pycache__/
+*.pyc
